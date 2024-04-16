@@ -8,7 +8,7 @@ const CryptoJS = require("crypto-js")
 //UPDATE
 
 
-  router.put('/:id',verifyTokenAndAuthorization, async(req,res)=>{
+  router.put('/:id', async(req,res)=>{
     if(req.body.password){
         req.body.password= CryptoJS.AES.encrypt(
             req.body.password,
@@ -32,7 +32,7 @@ const CryptoJS = require("crypto-js")
 
     //DELETE
 
-    router.delete('/:id',verifyTokenAndAuthorization,async(req,res)=>{
+    router.delete('/:id',async(req,res)=>{
           try{
                 await User.findByIdAndDelete(req.params.id);
                 res.status(200).json("user has been deleted");
@@ -44,8 +44,9 @@ const CryptoJS = require("crypto-js")
 
     //GET USER
 
-    router.get('/find/:id',verifyTokenAndAdmin,async(req,res)=>{
+    router.get('/find',async(req,res)=>{
         try{
+          
              const user = await User.findById(req.params.id);
              const {password , ...others}=user._doc;
              res.status(200).json(others)
@@ -57,7 +58,7 @@ const CryptoJS = require("crypto-js")
 
       //GET ALL USERS
 
-      router.get('/',verifyTokenAndAdmin,async(req,res)=>{
+      router.get('/',async(req,res)=>{
              
         const query = req.query.new; 
              
@@ -72,7 +73,7 @@ const CryptoJS = require("crypto-js")
   })
 
    // USER STATUS 
-     router.get("/stats",verifyTokenAndAdmin, async (req,res)=>{
+     router.get("/stats", async (req,res)=>{
   const date = new Date();
   const lastYear = new  Date(date.setFullYear(date.setFullYear() -1));
   try{
