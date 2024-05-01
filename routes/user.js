@@ -49,6 +49,7 @@ const CryptoJS = require("crypto-js")
           
              const user = await User.findById(req.params.id);
              const {password , ...others}=user._doc;
+             console.log(password,others);
              res.status(200).json(others)
         }catch(err){
            res.status(500).json(err);
@@ -63,7 +64,7 @@ const CryptoJS = require("crypto-js")
         const query = req.query.new; 
              
         try{
-             const users = query? await User.find({isAdmin:false}).sort({_id:-1}).limit(5) : await User.find({isAdmin:false});
+             const users = query? await User.find({isAdmin:false}).sort({_id:-1}).limit(5).select('-password') : await User.find({isAdmin:false}).select('-password');
          
              res.status(200).json(users)
         }catch(err){

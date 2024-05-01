@@ -10,6 +10,7 @@ const cartRoute = require("./routes/cart");
 const orderRoute = require("./routes/order");
 dotenv.config();
 app.use(cors());
+app.use(express.json())
 mongoose.connect(process.env.MONGO_URL).then(
     ()=>console.log("Database connected")).catch((err)=>console.log(err))
 app.use(express.json());
